@@ -45,7 +45,7 @@ def getLocation(apiKey, ll, spn, request):
     response = requests.get(req, params=params).json()
     file = open("file.json", "w")
     json.dump(response, file)
-    return response["features"][0]
+    return response["features"]
 
 
 def lld(a, b):
