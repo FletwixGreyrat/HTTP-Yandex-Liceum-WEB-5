@@ -1,4 +1,5 @@
 import json
+import math
 import requests
 
 def getAll(geocode, apikey, *reqs):
@@ -21,8 +22,6 @@ def getAll(geocode, apikey, *reqs):
 
     dictForReturning = {}
     if 'coords' in reqs:
-        file = open("file.json", "w")
-        json.dump(response, file)
         dictForReturning['coordinates'] = response["GeoObject"]['Point']["pos"].split()
     
     if "span" in reqs:
@@ -32,3 +31,31 @@ def getAll(geocode, apikey, *reqs):
     return dictForReturning
 
 
+def getLocation(apiKey, ll, spn, request):
+    req = "https://search-maps.yandex.ru/v1/"
+    params = {
+        "apikey": apiKey,
+        "text": request,
+        "lang": "ru_RU",
+        "ll": ll,
+        "spn": spn,
+        "type": "biz"
+    }
+
+    response = requests.get(req, params=params).json()
+    file = open("file.json", "w")
+    json.dump(response, file)
+    return response["features"][0]
+
+
+def lld(a, b):
+    zxc = 111 * 1000
+    a1, a2 = a
+    b1, b2 = b
+    bankai = math.radians((float(a2) + float(b2)) / 2.)
+    cursed = math.cos(bankai)
+    dx = abs(float(a1) - float(b1)) * zxc * cursed
+    dy = abs(float(a2) - float(b2)) * zxc
+    distance = math.sqrt(dx * dx + dy * dy)
+
+    return distance
