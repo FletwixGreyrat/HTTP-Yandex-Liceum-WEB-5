@@ -17,7 +17,6 @@ def getAll(geocode, apikey, *reqs):
     
     else:
         return
-    
     response = response["response"]["GeoObjectCollection"]["featureMember"][0]
 
     dictForReturning = {}
