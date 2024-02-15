@@ -24,9 +24,14 @@ def getAll(geocode, apikey, *reqs):
         dictForReturning['coordinates'] = response["GeoObject"]['Point']["pos"].split()
     
     if "span" in reqs:
-        crds = (response['Point']["pos"])
+        crds = response["GeoObject"]['Point']["pos"]
+        l1, l2 = crds.split()
+        print(response)
+        zxc = response["GeoObject"]["boundedBy"]["Envelope"]
+        z, x = zxc["lowerCorner"].split()
+        c, v = zxc["upperCorner"].split()
 
-
+        dictForReturning["llspan"] = ",".join([l1, l2]), ','.join([str(abs(float(z) - float(c)) / 2.0), str(abs(float(v) - float(x)) / 2.0)])
     return dictForReturning
 
 
